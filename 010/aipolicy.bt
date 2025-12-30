@@ -1,0 +1,187 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File:
+//   Authors:Zimcia
+//   Version:
+//   Purpose:
+//  Category:
+// File Mask:
+//  ID Bytes:
+//   History:
+//------------------------------------------------
+
+typedef struct {
+    uint target;
+    if(target == 6)
+    {
+        int occupation;
+    }
+} Target;
+
+void read_parameters(local int type)
+{
+    switch (type)
+    {
+        case 0  : //o_attact
+            int uType;
+            break;
+        case 1  : //o_use_skill
+            int uSkill;
+            int uLevel;
+            break;
+        case 2  : //o_talk
+            int uSize;
+            wchar_t szData[uSize / 2];
+            break;
+        case 3  : //o_reset_hate_list
+            break;
+        case 4  : //o_run_trigger
+            int uID;
+            break;
+        case 5  : //o_stop_trigger
+            int uID;
+            break;
+        case 6  : //o_active_trigger
+            int uID;
+            break;
+        case 7  : //o_create_timer
+            int uID;
+            int uPediod;
+            int uCounter;
+            break;
+        case 8  : //o_kill_timer
+            int uID;
+            break;
+        case 9  : //o_flee
+            break;
+        case 10  : //o_set_hate_to_first
+            break;
+        case 11  : //o_set_hate_to_last
+            break;
+        case 12  : //o_set_hate_fifty_percent
+            break;
+        case 13  : //o_skip_operation
+            break;
+        case 14  : //o_active_controller
+            uint ID;
+            char bStop;
+            char undefined;
+            char undefined;
+            char undefined;
+            break;
+        case 15  : //o_summon
+            int uMounsterID; 
+            int uBodyMounsterID;
+            int uMounsterNum;
+            int uLife;
+            byte szName[32];
+            float fRange;
+            char bFollow;
+            char bDissear;
+            char undefined;
+            char undefined;
+            break;
+        case 16  : //o_trigger_task
+            int uTaskID;
+            break;
+        case 17  : //o_change_path
+            int uPathID;
+            break;
+        case 18  : //o_dispear
+            break;
+        case 19  : //o_sneer_monster
+            break;
+        case 20  : //o_use_range_skill
+            int uSkill;
+            int uLevel;
+            float fRange;
+            break;
+        case 21  : //o_summon_mine
+            int uID;
+            int nNumber;
+            int nLife;
+            float fDistance;
+            char bBind;
+            char undefined;
+            char undefined;
+            char undefined;
+            break;
+        case 22  : //o_set_global
+            int iID;
+            int iValue;
+            //Target target;
+            break;
+        case 23  : //o_revise_global
+            int iID;
+            int iValue;
+            break;
+        case 24  : //o_active_pk_region
+            //not sure
+            int iID;
+            char bActive;
+            char undefined;
+            char undefined;
+            char undefined;
+            break;
+        case 25  : //o_num
+            break;
+    }
+    Target target;
+}
+
+typedef struct {
+    int id;
+    read_parameters(id);
+}Operation;
+
+void read_conditions()
+{
+    int id;
+    int conditionLength;
+    local int i;
+    for(i = 0; i < conditionLength; i++)
+    {
+        byte conditionData;
+    }
+    //byte conditionData[conditionLength] <optimize=false>;
+    int type;
+    if(type == 1)
+    {
+        read_conditions();
+        int SubNodeL;
+        read_conditions();
+        int SubNodeR;
+    }
+    else if(type == 2)
+    {
+        read_conditions();
+        int SubNodeR;
+    }
+}
+
+
+typedef struct {
+    int version;
+    int id;
+    byte bActive;
+    byte bRun;
+    byte bAttackValid;
+    char Name[128];
+    //Condition condition;
+    read_conditions();
+    int count;
+    Operation operaion[count] <optimize=false>;
+}CTriggerData;
+
+typedef struct {
+    int version;
+    int id;
+    int count;
+    CTriggerData Triggers[count] <optimize=false>;
+}CPolicyData;
+
+
+int Header;
+int count;
+CPolicyData policydata[count] <optimize=false>;

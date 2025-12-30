@@ -1,0 +1,207 @@
+/*****************************************************************************
+ * pw_ski.hsl - Structure definitions for the Perfect World *.ski file format.
+ *  
+ * Copyright (c) 2007 BreakPoint Software, Inc.  All Rights Reserved
+ * Copyright (c) 2010 Rainer Kesselschlaeger
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2010-01-28 - RK - Original
+ *  2010-02-06 - RK - Some more unknowns solved
+ *  2010-20-16 - RK - Enhancements
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("ski structures")
+#pragma fileextensions(".ski")
+
+#pragma byteorder(little_endian)
+
+
+#pragma hide()
+struct pwSki_MOXBIKSA
+{
+    char signature[8];
+#pragma verify match_var_str("signature", "MOXBIKSA")
+} ;
+
+typedef struct ZERO_60
+{
+    /* 60 bytes zero, but mayby in 15 DWORDs */
+    DWORD        unk_zero_0[15];
+#pragma verify match_var_int("unk_zero_0[0]", "0")
+#pragma verify match_var_int("unk_zero_0[1]", "0")
+#pragma verify match_var_int("unk_zero_0[2]", "0")
+#pragma verify match_var_int("unk_zero_0[3]", "0")
+#pragma verify match_var_int("unk_zero_0[4]", "0")
+#pragma verify match_var_int("unk_zero_0[5]", "0")
+#pragma verify match_var_int("unk_zero_0[6]", "0")
+#pragma verify match_var_int("unk_zero_0[7]", "0")
+#pragma verify match_var_int("unk_zero_0[8]", "0")
+#pragma verify match_var_int("unk_zero_0[9]", "0")
+#pragma verify match_var_int("unk_zero_0[10]", "0")
+#pragma verify match_var_int("unk_zero_0[11]", "0")
+#pragma verify match_var_int("unk_zero_0[12]", "0")
+#pragma verify match_var_int("unk_zero_0[13]", "0")
+#pragma verify match_var_int("unk_zero_0[14]", "0")
+} ZERO_60;
+#pragma show()
+
+
+typedef struct Ski_BONE_NAME
+{
+    DWORD        bone_len;
+    char         BoneName[bone_len];
+} Ski_BONE_NAME;
+
+
+typedef struct Ski_TEXTURE
+{
+    DWORD        tex_len;
+    char         TextureName[tex_len];
+} Ski_TEXTURE;
+
+
+typedef struct Ski_MATERIAL
+{
+    /*zstring      MatHeader;*/		/* "MATERIAL: " */
+    
+    char         MatHeader[10];	// "MATERIAL: "
+    UBYTE        TrailZero;		// Trailing Zero \0 
+
+    /* verify this */
+#pragma verify match_var_str("MatHeader", "MATERIAL: ")
+    
+    /* then 16 float values, mostly [1.0, 1.0, 1.0, 1.0,   1.0, 1.0, 1.0, 1.0,   0.0, 0.0, 0.0, 1.0,   0.0, 0.0, 0.0, 1.0] */
+    /* Could be some sort of matrix, or just 16 material parameters */
+    /*float        MatParams[16];*/
+    float        MatParams_A[4];
+    float        MatParams_B[4];
+    float        MatParams_C[4];
+    float        MatParams_D[4];
+    
+    float        ScaleParam;		/* spotted: 9.999999 or 19.999998 or 10.0 or ... 0 also spotted! */
+    
+    UBYTE        bIsClothing;		/* spotted: 0x00(body model) or 0x01(clothing/fashion) */
+} Ski_MATERIAL;
+
+
+typedef struct Ski_VERTEX_A		/* total size of this struct: 48 bytes */
+{								/* used for models with bones */
+    float        Position[3];
+    float        VertexWeight[3];
+    UBYTE        BoneIndex[4];
+    float        Normal[3];
+    float        UV_coord[2];
+} Ski_VERTEX_A;
+
+
+typedef struct Ski_VERTEX_B		/* total size of this struct: 32 bytes */
+{								/* used for models without bones */
+    float        Position[3];
+    float        Normal[3];
+    float        UV_coord[2];
+} Ski_VERTEX_B;
+
+
+typedef struct Ski_FACE			/* total size of this struct: 6 bytes */
+{
+    USHORT       VertIndex[3];
+} Ski_FACE;
+
+
+/* By default, Hex Workshop limits the length of arrays to 1024 members; */
+/* we need to increase this value to read vertices and faces correctly */
+/* in case very large meshes were observed. */
+/* BUT ATTENTION: Hex Workshop may crash / slow down when set too high! */
+#pragma maxarray(4096); /* Increase the max array length to 2048 or 4096 */
+
+typedef struct Ski_MESHOBJECT_A
+{
+    DWORD        obj_len;
+    char         ObjectName[obj_len];
+    
+    LONG         tex_index;
+    LONG         mat_index;
+    
+    DWORD        vertex_count;		/* Spotted up to 1235 */
+    DWORD        index_count;		/* Spotted up to 6084 */
+    
+    /* BLOCK OF VERTICES */
+    Ski_VERTEX_A     Vertices[vertex_count];
+    
+    /* BLOCK OF FACES */
+    Ski_FACE     Faces[index_count/3];
+    
+} Ski_MESHOBJECT_A;
+
+
+typedef struct Ski_MESHOBJECT_B
+{
+    DWORD        obj_len;
+    char         ObjectName[obj_len];
+    
+    LONG         tex_index;
+    LONG         mat_index;
+    
+    /* if vertex_type == 1, skip 4 bytes */
+    /* this is true in this MESHOBJECT_B */
+    UBYTE        extraData[4];
+    
+    DWORD        vertex_count;		/* Spotted up to 1235 */
+    DWORD        index_count;		/* Spotted up to 6084 */
+    
+    /* BLOCK OF VERTICES */
+    Ski_VERTEX_B     Vertices[vertex_count];
+    
+    /* BLOCK OF FACES */
+    Ski_FACE     Faces[index_count/3];
+    
+} Ski_MESHOBJECT_B;
+
+
+struct pwSki_FILE
+{
+    /* File Header */
+    struct       pwSki_MOXBIKSA  moxbiksa;
+    DWORD        ski_type;
+    DWORD        mesh_count[4];
+    DWORD        tex_count;
+    DWORD        mat_count;
+    DWORD        num_bips;
+    DWORD        unknown_2;
+    DWORD        type_mask;			/* 41 (normal) or 43 (rounded?) depends on avatar and fashion */
+    
+    /* 60 bytes with 0 */
+    ZERO_60      unk_zero_0;
+    
+    /* if we have bone names, get them */
+    switch (ski_type)
+    {
+        case 9:
+          /* Does not work this way
+          Ski_BONE_NAME    BoneNames[num_bips];
+          */
+          /* Try with address offset: ("__this__" is our current address) */
+          Ski_BONE_NAME    BoneNames[ulongAt(addrof(__this__)-72)];
+          break;
+    };
+    
+    Ski_TEXTURE    Textures[tex_count];
+    Ski_MATERIAL   Materials[mat_count];
+    
+    /* This does not work this way... */
+ /* Ski_MESHOBJECT     Mesh[mesh_count[0]]; */
+ /* Ski_MESHOBJECT     Mesh[mesh_count[1]]; */
+ /* Ski_MESHOBJECT     Mesh[mesh_count[2]]; */
+ /* Ski_MESHOBJECT     Mesh[mesh_count[3]]; */
+ 
+    /* Try it by using value at address offset */
+    Ski_MESHOBJECT_A   Mesh_A[ulongAt(addrof(mesh_count))];
+    Ski_MESHOBJECT_B   Mesh_B[ulongAt(addrof(mesh_count)+4)];
+    Ski_MESHOBJECT_A   Mesh_C[ulongAt(addrof(mesh_count)+8)];	/* or is this _B or maybe a _C ? */
+    Ski_MESHOBJECT_A   Mesh_D[ulongAt(addrof(mesh_count)+12)];	/* or is this _B or maybe a _D ? */
+} ;
+
+

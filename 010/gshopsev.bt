@@ -1,0 +1,84 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File: gshopsev
+//   Authors:
+//   Version:
+//   Purpose:
+//  Category:
+// File Mask:
+//  ID Bytes:
+//   History:
+//------------------------------------------------
+
+typedef struct {
+    int price;
+    int end_time;
+    int time;
+    int start_time;
+    int type;
+    int day;
+    int status;
+    int flag;
+    int reputation_type;
+    int reputation;
+    int sellstatus;
+    int discount;
+}_GSHOP_ITEM;
+
+typedef struct {
+    int id;
+    int num;
+    //byte surface_path[128]; //not server
+    _GSHOP_ITEM buy[4];
+    int main_type;
+    int sub_type;
+    int local_id;
+    //byte Desc[1024]; //not server
+    //byte name[64];//not server
+    byte bHasPresent;
+    int Presentid;
+    int Presentcount;
+    byte bPresentBind;
+    //byte uk1[10];
+    //byte uk2[1216];
+}GSHOP_ITEM;
+
+typedef struct {
+    int id;
+    byte name[128];
+    int sub_cats_count;
+}Category;
+
+typedef struct {
+    byte name[128];
+}subcat;
+
+typedef struct {
+    int timestamp;
+    int item_count;
+}HEADER;
+
+HEADER Header;
+local int iItemCnt = 0;
+    //while( iRegionCnt < Header.iNumRegion)
+while( iItemCnt < Header.item_count)
+    {
+        GSHOP_ITEM item;
+        iItemCnt++;     
+    }
+
+/*int catcount;
+local int iCatCnt = 0;
+local int iSubCatCnt = 0;
+while( iCatCnt < catcount)
+    {
+        Category Cat;
+        iSubCatCnt = 0;
+        while (iSubCatCnt < Cat.sub_cats_count)
+        {
+            subcat sub;
+            iSubCatCnt++;
+        }
+        iCatCnt++;     
+    }*/
