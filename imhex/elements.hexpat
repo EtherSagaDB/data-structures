@@ -2884,8 +2884,7 @@ struct NpcTalk {
 };
 
 struct Elements {
-    u16 Version;
-    u16 Signature;
+    u32 Magic;
     u32 Timestamp;
     EquipmentAddons equipmentAddons;                            // 1
     EquipmentType equipmentType;                                // 2
