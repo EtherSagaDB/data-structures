@@ -2244,8 +2244,9 @@ struct NpcProfessionDemotionServiceRow {
 };
 
 struct NpcTalkResponseNode {
-    u32 Unknown;
-    char16 Content[66];
+    u32 Unknown1;
+    char16 Content[64];
+    u32 Unknown2
 };
 
 struct NpcTalkChildNode {
