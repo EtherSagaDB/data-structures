@@ -1118,9 +1118,32 @@ struct UpgradeTransferRow {
     UpgradeTransferRequirementsElement Requirements[20];
 };
 
+struct GardenExchangeConfigShopItemRequiredItems {
+    u32 ID;
+    u32 Quantity;
+};
+
+struct GardenExchangeConfigShopItemRequiredReputations {
+    u32 ID;
+    u32 Quantity;
+};
+
+struct GardenExchangeConfigShopItem {
+    u32 ID;
+    GardenExchangeConfigShopItemRequiredItems RequiredItems[2];
+    GardenExchangeConfigShopItemRequiredReputations RequiredReputations[2];
+    u32 Unknown;
+};
+
+struct GardenExchangeConfigShopTab {
+    char16 Name[8];
+    GardenExchangeConfigShopItem ShopItems[48];
+};
+
 struct GardenExchangeConfigRow {
     u32 Id;
-    u8 Unknown[7808];
+    char16 Name[32];
+    GardenExchangeConfigShopTab ShopTabs[4];
 };
 
 struct RuneCombinationConfigReputationCostElement {
