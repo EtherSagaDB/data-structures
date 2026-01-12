@@ -1132,7 +1132,7 @@ struct GardenExchangeConfigShopItem {
     u32 ID;
     GardenExchangeConfigShopItemRequiredItems RequiredItems[2];
     GardenExchangeConfigShopItemRequiredReputations RequiredReputations[2];
-    u32 Unknown;
+    u32 Price;
 };
 
 struct GardenExchangeConfigShopTab {
