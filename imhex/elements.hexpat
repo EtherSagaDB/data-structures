@@ -1435,7 +1435,9 @@ struct RecipeRow {
 };
 
 struct EnemyFactionRow {
-    u8 Unknown[196];
+    u32 ID;
+    char16 Name[32];
+    u32 EnemyFactions[32];
 };
 
 struct CharacterClassConfigRow {
@@ -1713,12 +1715,19 @@ struct MineEssenceRow {
 };
 
 struct GmGeneratorTypeRow {
-    u32 Id;
+    u32 ID;
     char16 Name[32];
 };
 
 struct GmGeneratorRow {
-    u8 Unknown[92];
+    u32 ID;
+    u32 Type;
+    char16 Name[32];
+    s32 FileMatter;
+    s32 FileIcon;
+    u32 ItemID;
+    s32 StackSize;
+    u32 Proctype;
 };
 
 struct FireworksEssenceRow {
@@ -1754,12 +1763,24 @@ struct PlayerLevelExperienceConfigRow {
     double PetExperience[200];
 };
 
+struct NpcWarTowerBuildServiceBuildInfo {
+    s32 InBuildID;
+    s32 BuildUpID;
+    s32 RequiredItemID;
+    s32 UseTime;
+    s32 Fee;
+};
+
 struct NpcWarTowerBuildServiceRow {
-    u8 Unknown[148];
+    u32 ID;
+    char16 Name[32];
+    NpcWarTowerBuildServiceBuildInfo BuildInfo[4];
 };
 
 struct PlayerSecondLevelRow {
-    u8 Unknown[1092];
+    u32 ID;
+    char16 Name[32];
+    float ExpLost[256];
 };
 
 struct NpcResetPropServiceItemRequirementsElement {
@@ -1885,7 +1906,13 @@ struct RecipeRollEssenceRow {
 };
 
 struct SuiteRow {
-    u8 Unknown[312];
+    u32 ID;
+    char16 Name[32];
+    s32 MaxEquips;
+    u32 Equipments[14];
+    u32 Addons[13];
+    char GFXFile[128];
+    s32 HHType;
 };
 
 struct DoubleExperienceEssenceRow {
@@ -2086,19 +2113,69 @@ struct SpecialIdConfigRow {
 };
 
 struct TextFireworksRow {
-    u8 Unknown[616];
+    u32 ID;
+    char16 Name[32];
+    s32 FileMatter;
+    s32 FileIcon;
+    s32 FileFirework;
+    s32 Level;
+    char16 CharCanUse[256];
+    s32 MaxChar;
+    s32 Price;
+    s32 ShopPrice;
+    s32 StackSize;
+    u32 Proctype;
 };
 
 struct TalismanMainPartRow {
-    u8 Unknown[200];
+    u32 ID;
+    char16 Name[32];
+    s32 FileModel[4];
+    s32 FileMatter;
+    s32 FileIcon;
+    char16 ShowLevel[8];
+    s32 Level;
+    s32 InitLevel;
+    u32 CharacterComboID;
+    u32 RequireGender;
+    s32 RequireLevel;
+    u32 SectMask;
+    s32 RequireLEvel2;
+    s32 MaxLevel;
+    s32 MaxLevel2;
+    float EnergyRecoverSpeed;
+    float EnergyRecoverFactor;
+    float EnergyDropSpeed;
+    s32 LevelUpFee;
+    s32 ExpFoodFee;
+    s32 ResetFee;
+    s32 Price;
+    s32 ShopPrice;
+    s32 StackSize;
+    u32 ProcType;
 };
 
 struct TalismanExperienceFoodRow {
-    u8 Unknown[96];
+    u32 ID;
+    char16 Name[32];
+    s32 FileMatter;
+    s32 FileIcon;
+    s32 ExpAdded;
+    s32 Price;
+    s32 ShopPrice;
+    s32 StackSize;
+    u32 Proctype;
 };
 
 struct TalismanMergeCatalystRow {
-    u8 Unknown[92];
+    u32 ID;
+    char16 Name[32];
+    s32 FileMatter;
+    s32 FileIcon;
+    s32 Price;
+    s32 ShopPrice;
+    s32 StackSize;
+    u32 Proctype;
 };
 
 struct TalismanEnergyFoodRow {
@@ -2106,7 +2183,7 @@ struct TalismanEnergyFoodRow {
     char16 Name[32];
     u32 PathIdMatter;
     u32 PathIdIcon;
-    u32 Energy;
+    u32 TotalEnergy;
     u32 MinimumEnergyConsumed;
     u32 Price;
     u32 ShopPrice;
