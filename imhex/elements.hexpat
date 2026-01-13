@@ -2350,9 +2350,9 @@ struct NpcProfessionDemotionServiceRow {
 };
 
 struct NpcTalkResponseNode {
-    u32 Unknown1;
+    u32 ID;
     char16 Content[64];
-    u32 Unknown2;
+    u32 Param;
 };
 
 struct NpcTalkChildNode {
