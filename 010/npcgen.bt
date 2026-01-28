@@ -1,0 +1,167 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File:npggen.data
+//   Authors:Zimcia
+//   Version:
+//   Purpose:
+//  Category:
+// File Mask:
+//  ID Bytes:
+//   History:
+//------------------------------------------------
+typedef struct {
+    int dwVersion;
+    int iNumAIGen;
+    int iNumResArea;
+    int iNumDynObj;
+    int iNumNPCCtrl;
+}HEADER;
+
+typedef struct {
+    float x;
+    float y;
+    float z;
+} VECTOR3;
+
+typedef struct {
+    int iYear;
+    int iMouth;
+    int iWeek;
+    int iDay;
+    int iHours;
+    int iMinutes;
+} TimeTable;
+
+typedef struct {
+    int dwDynObjID;
+    VECTOR3 vPos;
+    byte dir1;
+    byte dir2;
+    byte rad;
+    byte scale;
+    int idController;
+} DynObj;
+
+typedef struct {
+    int id;
+    int iControllerID;
+    char szName[128];
+    byte bActived;
+    int iWaitTime;
+    int iStopTime;
+    byte bActiveTimeInvalid;
+    byte bStopTimeInvalid;
+    TimeTable Time1;
+    TimeTable Time2;
+    int iActiveTimeRange;
+    byte bRepeatActived;
+} NPCCtrl;
+
+typedef struct {
+    int iResType;
+    int idTemplate;
+    int dwRefreshTime;
+    int dwNumber;
+    float fHeiOff;
+} AttachRes;
+
+typedef struct {
+    VECTOR3 vPos;
+    float y;
+    float z;
+    int iNumRes;
+    byte bInitGen;
+    byte bAutoRevive;
+    byte bValidOnce;
+    int dwGenID;
+    byte dir1;
+    byte dir2;
+    byte rad;
+    int idCtrl;
+    int iMaxNum;
+    int dwExportID;
+    int iAttachNum;
+    local int iAttachNumCnt = 0;
+    while( iAttachNumCnt < iAttachNum + iNumRes)
+    {
+        AttachRes Att;
+        iAttachNumCnt++;     
+    }
+} ResArea;
+
+typedef struct {
+    int dwID;
+    int dwNum;
+    int dwRefresh;
+    int dwDiedTimes;
+    int dwAggressive;
+    float fOffsetWater;
+    float fOffsetTrn;
+    int dwFaction;
+    int dwFacHelper;
+    int dwFacAccept;
+    char bNeedHelp;
+    char bDefFaction;
+    char bDefFacHelper;
+    char bDefFacAccept;
+    int iPathID;
+    int iLoopType;
+    int iSpeedFlag;
+    int iDeadTime;
+} Attach;
+
+typedef struct {
+    int iType;
+    int iNumGen;
+    VECTOR3 vPos;
+    VECTOR3 vDir;
+    VECTOR3 vExts;
+    int iNPCType;
+    int iGroupType;
+    char bInitGen;
+    char bAutoRevive;
+    char bValidOnce;
+    int dwGenID;
+    int idCtrl;
+    int iLifeTime;
+    int iMaxNum;
+    int dwExportID;
+    int iAttachNum;
+    local int iAttachNumCnt = 0;
+    while( iAttachNumCnt < iNumGen)
+    {
+        Attach Att;
+        iAttachNumCnt++;     
+    }
+}AIGen;
+
+
+
+HEADER Header;
+local int iNumAIGenCnt = 0;
+
+while( iNumAIGenCnt < Header.iNumAIGen)
+    {
+        AIGen AI;
+        iNumAIGenCnt++;     
+    }
+local int iNumResAreaCnt = 0;
+while( iNumResAreaCnt < Header.iNumResArea)
+    {
+        ResArea Res;
+        iNumResAreaCnt++;     
+    }
+local int iNumDynObjCnt = 0;
+while( iNumDynObjCnt < Header.iNumDynObj)
+    {
+        DynObj Dyn;
+        iNumDynObjCnt++;     
+    }
+//char szName[24];
+local int iNumNPCCtrlCnt = 0;
+while( iNumNPCCtrlCnt < Header.iNumNPCCtrl)
+    {
+        NPCCtrl NPCctrl;
+        iNumNPCCtrlCnt++;     
+    }

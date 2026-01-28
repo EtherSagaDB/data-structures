@@ -1,0 +1,34 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File: extra_drops.sev
+//   Authors: Zimcia
+//   Version:
+//   Purpose:
+//  Category:
+// File Mask:
+//  ID Bytes:
+//   History:
+//------------------------------------------------
+typedef struct {
+    int id;
+    float probability;
+}EXTRADROPTABLE_ITEM;
+
+typedef struct {
+    int monsterCount;
+    int id_monster[monsterCount];
+    EXTRADROPTABLE_ITEM item[256];
+    byte name[128];
+    int type; //enum EDT_ TYPE
+    float drop_num_probability[8];
+}EXTRADROPTABLE;
+
+
+typedef struct {
+    int magic;
+    int count;
+}HEADER;
+//<optimize=false>;
+HEADER Header;
+EXTRADROPTABLE Table[Header.count] <optimize=false>;

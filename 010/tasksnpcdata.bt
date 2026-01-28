@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File: task_npc.data
+//   Authors: Zimcia
+//   Version:
+//   Purpose:
+//  Category:
+// File Mask:
+//  ID Bytes:
+//   History:
+//------------------------------------------------
+typedef struct {
+    int id;
+    int world;
+    float x;
+    float y;
+    float z;
+}NPC;
+
+typedef struct {
+    int magic;
+    int timestamp;
+    int timestamp1;
+}HEADER;
+
+HEADER Header;
+NPC npc[1073];
